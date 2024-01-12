@@ -65,6 +65,8 @@ namespace EngineAPI.Domain.Data
 
                 entity.Property(e => e.Document).HasColumnName("document");
 
+                entity.Property(e => e.Idf).HasColumnName("idf");
+
                 entity.Property(e => e.Instance)
                     .HasMaxLength(250)
                     .HasColumnName("instance");
@@ -72,6 +74,8 @@ namespace EngineAPI.Domain.Data
                 entity.Property(e => e.Keyword)
                     .HasMaxLength(250)
                     .HasColumnName("keyword");
+
+                entity.Property(e => e.Tf).HasColumnName("tf");
 
                 entity.HasOne(d => d.ConceptNavigation)
                     .WithMany(p => p.Indices)

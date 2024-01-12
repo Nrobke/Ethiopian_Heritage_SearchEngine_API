@@ -28,129 +28,81 @@ public class DocumentService : IDocumentService
         {
             string jsonFilePath = "CrawledDocuments.json";
 
-            if (File.Exists(jsonFilePath))
+            if (!File.Exists(jsonFilePath)) return new ResponseModel<dynamic> { Success = false, Data = null };
+
+            string jsonContent = File.ReadAllText(jsonFilePath);
+            var jsonObj = JsonConvert.DeserializeObject<List<CrawledDocumentDTO>>(jsonContent);
+
+            var concepts = await _repository.FindAll<Concept>(false);
+
+            if (!concepts.Any() || jsonObj == null) return new ResponseModel<dynamic> { Success = false, Data = null };
+
+            var graph = new Graph();
+            FileLoader.Load(graph, "CulturalHeritage.rdf");
+            var dataset = new InMemoryDataset(graph);
+
+            int successCount = 0, resultCount = 0;
+            List<IndexDTO> savedIndices = new();
+
+            foreach (var obj in jsonObj)
             {
-                string jsonContent = File.ReadAllText(jsonFilePath);
+                var contentValues = obj.Content.Where(c => c.Length >= 3).Select(c => $"\"{Functions.EscapeString(c)}\"");
+                var contentValuesString = string.Join(" ", contentValues);
 
-                var jsonObj = JsonConvert.DeserializeObject<List<CrawledDocumentDTO>>(jsonContent);
+                var sparqlQuery = $@"
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                PREFIX table: <http://cultural.heritage/Ethiopia#>
 
-                var concepts = await _repository.FindAll<Concept>(false);
+                SELECT ?content ?instanceLabel ?instanceType
+                WHERE {{
+                    VALUES ?content {{ {contentValuesString} }}
+                    ?instance rdf:type ?instanceType .
+                    ?instance rdfs:label ?instanceLabel .
 
-                if (concepts.Any())
+                    FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
+                    FILTER(?instanceType != owl:NamedIndividual)
+                    FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
+                }}
+                GROUP BY ?content ?instanceLabel ?instanceType
+            ";
+
+                var query = new SparqlQueryParser().ParseFromString(sparqlQuery);
+                var queryProcessor = new LeviathanQueryProcessor(dataset);
+                var results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
+
+                if (results != null)
                 {
+                    var doc = new Document { Link = obj.Site, Title = obj.Title, Description = obj.Description };
+                    var savedDoc = await _repository.Create(doc);
+                    resultCount++;
 
-                    if (jsonObj != null)
+                    var conceptFrequency = results.GroupBy(item => item["instanceType"].ToString())
+                                                 .ToDictionary(group => group.Key, group => group.Count());
+                   
+
+                    var indices = results.Select(item =>
                     {
-                        IGraph graph = new Graph();
-                        FileLoader.Load(graph, "CulturalHeritage.rdf");
-                        ISparqlDataset dataset = new InMemoryDataset(graph);
-
-                        int successCount = 0, resultCount = 0;
-                        List<IndexDTO> savedIndices = new();
-
-                        foreach (var obj in jsonObj)
+                        var concept = item["instanceType"].ToString();
+                        var conceptId = concepts.FirstOrDefault(c => c.Concept1 == concept)?.Id ?? 0;
+                        var tf = (double)conceptFrequency[concept] / conceptFrequency.Count;
+                        return conceptId == 0 ? null : new Domain.DataModels.Index
                         {
-                            List<string> contentValues = new();
-                            foreach (var c in obj.Content)
-                            {
-                                if (c.Length < 3)
-                                    continue;
-
-                                // Escape and add each content value to the list
-                                contentValues.Add($"\"{EscapeString(c)}\"");
-                            }
-                            // Join the content values into a string
-                            string contentValuesString = string.Join(" ", contentValues);
-
-                            string sparqlQuery = $@"
-                            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                            PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                            PREFIX table: <http://cultural.heritage/Ethiopia#>
-
-                            SELECT ?content ?instanceLabel ?instanceType (xsd:integer(COUNT(?instanceLabel)) AS ?conceptCount)
-                            WHERE {{
-                              VALUES ?content {{ {contentValuesString} }}  
-                              ?instance rdf:type ?instanceType .
-                              ?instance rdfs:label ?instanceLabel .
-
-                              FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
-                              FILTER(?instanceType != owl:NamedIndividual)
-                              FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
-                            }}
-                            GROUP BY ?content ?instanceLabel ?instanceType
-
-                         ";
-
-
-                            SparqlQueryParser sparqlParser = new SparqlQueryParser();
-                            SparqlQuery query = sparqlParser.ParseFromString(sparqlQuery);
-
-                            LeviathanQueryProcessor queryProcessor = new LeviathanQueryProcessor(dataset);
-                            SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
-
-                            if (results != null)
-                            {
-                                var doc = new Document
-                                {
-                                    Link = obj.Site,
-                                    Title = obj.Title,
-                                    Description = obj.Description,
-                                };
-
-                                var savedDoc = await _repository.Create(doc);
-                                resultCount++;
-
-                                List<Domain.DataModels.Index> indices = new();
-                                foreach (var item in results)
-                                {
-
-                                    var conceptId = concepts
-                                        .Where(c => c.Concept1 == item["instanceType"].ToString())
-                                        .Select(c => c.Id)
-                                        .FirstOrDefault();
-
-                                    if (conceptId == 0)
-                                        continue;
-
-                                    string conceptCountLiteral = item["conceptCount"].ToString();
-                                    Match match = Regex.Match(conceptCountLiteral, @"(\d+)");
-                                    int conceptCount = 0;
-                                    if (match.Success)
-                                    {
-                                        string numericValue = match.Groups[1].Value;
-
-                                        conceptCount = Convert.ToInt32(numericValue);
-
-                                    }
-                                    var conceptIndex = new Domain.DataModels.Index
-                                    {
-                                        Document = savedDoc.Id,
-                                        Concept = conceptId,
-                                        ConceptWeight = conceptCount,
-                                        Instance = item["instanceLabel"].ToString(),
-                                        Keyword = item["content"].ToString()
-                                    };
-
-                                    indices.Add(conceptIndex);
-                                    successCount++;
-                                }
-
-                                var returnedObj = await _repository.BulkSave(indices);
-                                
-                                savedIndices.AddRange(returnedObj.Adapt<List<IndexDTO>>());
-                            }
-                        }
-
-                        return new ResponseModel<dynamic> { Success = true, Data = savedIndices, Message = $"{successCount} indices out of {resultCount} documents saved." };
-                    }
+                            Document = savedDoc.Id,
+                            Concept = conceptId,
+                            Tf = tf,
+                            Instance = item["instanceLabel"].ToString(),
+                            Keyword = item["content"].ToString()
+                        };
+                    }).Where(index => index != null).ToList();
+                    savedIndices.AddRange((await _repository.BulkSave(indices)).Adapt<List<IndexDTO>>());
+                    successCount += indices.Count;
                 }
-
-
             }
 
-            return new ResponseModel<dynamic> { Success = false, Data = null };
+            return new ResponseModel<dynamic> { Success = true, Data = savedIndices, Message = $"{successCount} indices out of {resultCount} documents saved." };
         }
         catch (Exception x)
         {
@@ -158,10 +110,5 @@ public class DocumentService : IDocumentService
         }
     }
 
-    // Function to escape special characters in SPARQL values
-    private string EscapeString(string value)
-    {
-        // Implement your logic to escape special characters if needed
-        return value.Replace("\"", "\\\"");
-    }
+
 }
