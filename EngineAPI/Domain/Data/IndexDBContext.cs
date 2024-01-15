@@ -20,6 +20,7 @@ namespace EngineAPI.Domain.Data
         public virtual DbSet<Concept> Concepts { get; set; } = null!;
         public virtual DbSet<Document> Documents { get; set; } = null!;
         public virtual DbSet<DataModels.Index> Indices { get; set; } = null!;
+        public virtual DbSet<VwIndicesView> VwIndicesViews { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -88,6 +89,47 @@ namespace EngineAPI.Domain.Data
                     .HasForeignKey(d => d.Document)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Indexs_Documents");
+            });
+
+            modelBuilder.Entity<VwIndicesView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vw_IndicesView");
+
+                entity.Property(e => e.Concept).HasColumnName("concept");
+
+                entity.Property(e => e.ConceptDesc)
+                    .HasMaxLength(250)
+                    .HasColumnName("conceptDesc");
+
+                entity.Property(e => e.ConceptWeight).HasColumnName("conceptWeight");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.Document).HasColumnName("document");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Idf).HasColumnName("idf");
+
+                entity.Property(e => e.Instance)
+                    .HasMaxLength(250)
+                    .HasColumnName("instance");
+
+                entity.Property(e => e.Keyword)
+                    .HasMaxLength(250)
+                    .HasColumnName("keyword");
+
+                entity.Property(e => e.Link)
+                    .HasMaxLength(250)
+                    .HasColumnName("link");
+
+                entity.Property(e => e.Tf).HasColumnName("tf");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(500)
+                    .HasColumnName("title");
             });
 
             OnModelCreatingPartial(modelBuilder);

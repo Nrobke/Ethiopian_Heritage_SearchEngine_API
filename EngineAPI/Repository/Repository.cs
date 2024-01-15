@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using EngineAPI.Domain.Data;
 using System.Data;
 using System.Diagnostics;
+using EngineAPI.Domain.DataModels;
 
 namespace EngineAPI.Repository;
 
@@ -113,6 +114,24 @@ public class Repository : IRepository
             return await _context.Set<T>().FindAsync(id);
         }
         catch (Exception) { throw; }
+    }
+
+    public async Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts)
+    {
+        try
+        {
+            var documents = await _context.VwIndicesViews
+                .Where(item => concepts.Contains(item.ConceptDesc))
+                .OrderByDescending(item => item.Tf)
+                .ToListAsync();
+
+            return documents;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     public void Save() => _context.SaveChanges();

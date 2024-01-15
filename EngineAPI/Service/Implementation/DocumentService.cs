@@ -46,7 +46,7 @@ public class DocumentService : IDocumentService
 
             foreach (var obj in jsonObj)
             {
-                var contentValues = obj.Content.Where(c => c.Length >= 3).Select(c => $"\"{Functions.EscapeString(c)}\"");
+                var contentValues = obj.Content.Where(c => c.Length > 3).Select(c => $"\"{Functions.EscapeString(c)}\"");
                 var contentValuesString = string.Join(" ", contentValues);
 
                 var sparqlQuery = $@"

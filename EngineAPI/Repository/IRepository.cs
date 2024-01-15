@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using EngineAPI.Domain.DataModels;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Data;
 using System.Linq.Expressions;
 
@@ -16,4 +17,6 @@ public interface IRepository
     Task<IDbContextTransaction> StartTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
     void Save();
     Task<List<TEntity>> BulkSave<TEntity>(List<TEntity> entities) where TEntity : class;
+
+    Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts);
 }

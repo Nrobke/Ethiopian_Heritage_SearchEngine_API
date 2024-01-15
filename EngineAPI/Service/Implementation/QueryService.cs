@@ -87,7 +87,9 @@ public class QueryService : IQueryService
                 concepts.Add(concept);
             }
 
-            return new ResponseModel<dynamic> { Data = tokens };
+            var responses = await _repository.FindDocuments(concepts);
+
+            return new ResponseModel<dynamic> { Success = true, Data = responses };
         }
 
         return new ResponseModel<dynamic> {Success = false, Message = "please add search text" };
