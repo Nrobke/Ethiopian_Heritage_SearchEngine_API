@@ -7,6 +7,7 @@ using VDS.RDF.Parsing;
 using VDS.RDF.Query.Datasets;
 using VDS.RDF;
 using VDS.RDF.Query;
+using EngineAPI.Domain.DataModels;
 
 namespace EngineAPI.Service.Implementation;
 
@@ -24,7 +25,7 @@ public class QueryService : IQueryService
             return new ResponseModel<dynamic> { Success = false, Message = "The 'query' key is missing in the queryParams." };
         
 
-        if(textValue.Length > 2 && textValue is not null)
+        if(textValue is not null && textValue.Length > 3)
         {
             var context = new MLContext();
             var emptyData = new List<TextData>();
@@ -61,7 +62,7 @@ public class QueryService : IQueryService
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 PREFIX table: <http://cultural.heritage/Ethiopia#>
 
-                SELECT ?concept
+                SELECT ?concept ?instanceLabel
                 WHERE {{
                   VALUES ?content {{ {contentValuesString} }}
                   ?instance rdf:type ?concept.
@@ -71,7 +72,7 @@ public class QueryService : IQueryService
                   FILTER(?concept != owl:NamedIndividual)
                   FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
                 }}
-                GROUP BY ?concept
+                GROUP BY ?concept ?instanceLabel
                 ";
 
             SparqlQueryParser sparqlParser = new();
@@ -81,15 +82,27 @@ public class QueryService : IQueryService
             SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
 
             HashSet<string> concepts = new();
+            HashSet<string> instances = new();
             foreach (var result in results)
             {
-                string concept = result["concept"].ToString();
-                concepts.Add(concept);
+                concepts.Add(result["concept"].ToString());
+                instances.Add(Functions.CleanUpString(result["instanceLabel"].ToString()));
             }
 
-            var responses = await _repository.FindDocuments(concepts);
+            var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
 
-            return new ResponseModel<dynamic> { Success = true, Data = responses };
+            var responses = await _repository.FindDocuments(concepts, instances, filterParam);
+
+            foreach (var response in responses)
+            {
+                if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())))
+                {
+                    response.Tf += 10;
+                }
+
+            }
+
+            return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
         }
 
         return new ResponseModel<dynamic> {Success = false, Message = "please add search text" };

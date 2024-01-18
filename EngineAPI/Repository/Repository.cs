@@ -116,20 +116,24 @@ public class Repository : IRepository
         catch (Exception) { throw; }
     }
 
-    public async Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts)
+    public async Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts, HashSet<string> instances, string filter)
     {
         try
         {
-            var documents = await _context.VwIndicesViews
-                .Where(item => concepts.Contains(item.ConceptDesc))
+
+            var result = await _context.VwIndicesViews
+                .Where(item =>
+                    concepts.Contains(item.ConceptDesc) &&
+                    instances.Contains(item.Instance) &&
+                    item.ParentConcept != filter)
+                .Distinct()
                 .OrderByDescending(item => item.Tf)
                 .ToListAsync();
 
-            return documents;
+            return result;
         }
         catch (Exception)
         {
-
             throw;
         }
     }

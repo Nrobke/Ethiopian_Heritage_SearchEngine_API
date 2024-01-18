@@ -103,27 +103,21 @@ namespace EngineAPI.Domain.Data
                     .HasMaxLength(250)
                     .HasColumnName("conceptDesc");
 
-                entity.Property(e => e.ConceptWeight).HasColumnName("conceptWeight");
-
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Document).HasColumnName("document");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Idf).HasColumnName("idf");
 
                 entity.Property(e => e.Instance)
                     .HasMaxLength(250)
                     .HasColumnName("instance");
 
-                entity.Property(e => e.Keyword)
-                    .HasMaxLength(250)
-                    .HasColumnName("keyword");
-
                 entity.Property(e => e.Link)
                     .HasMaxLength(250)
                     .HasColumnName("link");
+
+                entity.Property(e => e.ParentConcept)
+                    .HasMaxLength(250)
+                    .HasColumnName("parentConcept");
 
                 entity.Property(e => e.Tf).HasColumnName("tf");
 

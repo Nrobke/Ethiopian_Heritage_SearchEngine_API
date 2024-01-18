@@ -33,6 +33,8 @@ public class DocumentService : IDocumentService
             string jsonContent = File.ReadAllText(jsonFilePath);
             var jsonObj = JsonConvert.DeserializeObject<List<CrawledDocumentDTO>>(jsonContent);
 
+            using var startedTransaction = _repository.StartTransaction();
+
             var concepts = await _repository.FindAll<Concept>(false);
 
             if (!concepts.Any() || jsonObj == null) return new ResponseModel<dynamic> { Success = false, Data = null };
@@ -93,14 +95,17 @@ public class DocumentService : IDocumentService
                             Document = savedDoc.Id,
                             Concept = conceptId,
                             Tf = tf,
-                            Instance = item["instanceLabel"].ToString(),
-                            Keyword = item["content"].ToString()
+                            Instance = Functions.CleanUpString(item["instanceLabel"].ToString()),
+                            Keyword = Functions.CleanUpString(item["content"].ToString())
                         };
                     }).Where(index => index != null).ToList();
                     savedIndices.AddRange((await _repository.BulkSave(indices)).Adapt<List<IndexDTO>>());
                     successCount += indices.Count;
                 }
             }
+
+            _repository.Save();
+            startedTransaction.Result.Commit();
 
             return new ResponseModel<dynamic> { Success = true, Data = savedIndices, Message = $"{successCount} indices out of {resultCount} documents saved." };
         }
