@@ -5,7 +5,7 @@ namespace EngineAPI.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class QueryController : ControllerBase
     {
         private readonly IQueryService _service;

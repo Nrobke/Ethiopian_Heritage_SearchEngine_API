@@ -6,7 +6,7 @@ using VDS.Common.Tries;
 namespace EngineAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ConceptController : ControllerBase
     {
         private readonly IConceptService _service;

@@ -62,17 +62,21 @@ public class QueryService : IQueryService
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 PREFIX table: <http://cultural.heritage/Ethiopia#>
 
-                SELECT ?concept ?instanceLabel
+                SELECT ?concept ?instanceLabel ?similarInstanceLabel
                 WHERE {{
                   VALUES ?content {{ {contentValuesString} }}
                   ?instance rdf:type ?concept.
                   ?instance rdfs:label ?instanceLabel .
+                    
+                  # Similar instances connected by table:similar_to
+                  ?similarInstance table:similar_to ?instance.
+                  ?similarInstance rdfs:label ?similarInstanceLabel.
   
                   FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
                   FILTER(?concept != owl:NamedIndividual)
                   FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
                 }}
-                GROUP BY ?concept ?instanceLabel
+                GROUP BY ?concept ?instanceLabel ?similarInstanceLabel
                 ";
 
             SparqlQueryParser sparqlParser = new();
@@ -81,28 +85,31 @@ public class QueryService : IQueryService
             LeviathanQueryProcessor queryProcessor = new(dataset);
             SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
 
-            HashSet<string> concepts = new();
-            HashSet<string> instances = new();
-            foreach (var result in results)
+            if(results is not null)
             {
-                concepts.Add(result["concept"].ToString());
-                instances.Add(Functions.CleanUpString(result["instanceLabel"].ToString()));
-            }
+                HashSet<string> concepts = new HashSet<string>(results.Select(result => result["concept"].ToString()));
+                HashSet<string> instances = new HashSet<string>(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
+                HashSet<string> similarInstances = new HashSet<string>(results.Select(result => Functions.CleanUpString(result["similarInstanceLabel"].ToString())));
 
-            var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
 
-            var responses = await _repository.FindDocuments(concepts, instances, filterParam);
+                var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
 
-            foreach (var response in responses)
-            {
-                if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())))
+                var responses = await _repository.FindDocuments(concepts, instances, filterParam);
+
+                foreach (var response in responses)
                 {
-                    response.Tf += 10;
+                    if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())) ||
+                        similarInstances.Any(similarInstance => response.Title.ToLower().Contains(similarInstance.ToLower())))
+                    {
+                        response.Tf += 10;
+                    }
                 }
 
+
+                return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
             }
 
-            return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
+            
         }
 
         return new ResponseModel<dynamic> {Success = false, Message = "please add search text" };
