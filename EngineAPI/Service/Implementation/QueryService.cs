@@ -68,9 +68,11 @@ public class QueryService : IQueryService
                   ?instance rdf:type ?concept.
                   ?instance rdfs:label ?instanceLabel .
                     
-                  # Similar instances connected by table:similar_to
-                  ?similarInstance table:similar_to ?instance.
-                  ?similarInstance rdfs:label ?similarInstanceLabel.
+                  OPTIONAL {{
+                    # Similar instances connected by table:similar_to
+                    ?similarInstance table:similar_to ?instance.
+                    ?similarInstance rdfs:label ?similarInstanceLabel.
+                  }}
   
                   FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
                   FILTER(?concept != owl:NamedIndividual)
@@ -87,9 +89,12 @@ public class QueryService : IQueryService
 
             if(results is not null)
             {
-                HashSet<string> concepts = new HashSet<string>(results.Select(result => result["concept"].ToString()));
-                HashSet<string> instances = new HashSet<string>(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
-                HashSet<string> similarInstances = new HashSet<string>(results.Select(result => Functions.CleanUpString(result["similarInstanceLabel"].ToString())));
+                HashSet<string> concepts = new(results.Select(result => result["concept"].ToString()));
+                HashSet<string> instances = new(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
+                HashSet<string?> similarInstances = results
+                                    .Select(result => result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"]?.ToString()) : null)
+                                    .Where(label => label != null)
+                                    .ToHashSet();
 
 
                 var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
@@ -99,7 +104,7 @@ public class QueryService : IQueryService
                 foreach (var response in responses)
                 {
                     if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())) ||
-                        similarInstances.Any(similarInstance => response.Title.ToLower().Contains(similarInstance.ToLower())))
+                        (similarInstances?.Any(similarInstance => response.Title.ToLower().Contains(similarInstance.ToLower())) ?? false))
                     {
                         response.Tf += 10;
                     }

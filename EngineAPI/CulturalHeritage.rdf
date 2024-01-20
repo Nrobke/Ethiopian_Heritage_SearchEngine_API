@@ -701,6 +701,16 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Aksum -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Aksum">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Monument"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Axum"/>
+        <rdfs:label>aksum</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Aksumite_Empire -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Aksumite_Empire">
@@ -2002,15 +2012,6 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Governance"/>
         <has_legacy rdf:resource="http://cultural.heritage/Ethiopia#Rock-Hewn_Churches_Lalibela"/>
         <rdfs:label>zagwe dynasty</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://cultural.heritage/Ethiopia#aksum -->
-
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#aksum">
-        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Monument"/>
-        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Axum"/>
     </owl:NamedIndividual>
     
 

@@ -126,11 +126,12 @@ public class Repository : IRepository
                     concepts.Contains(item.ConceptDesc) &&
                     instances.Contains(item.Instance) &&
                     item.ParentConcept != filter)
-                .Distinct()
-                .OrderByDescending(item => item.Tf)
+                .GroupBy(item => item.Document)  
+                .Select(group => group.First())  
                 .ToListAsync();
 
             return result;
+
         }
         catch (Exception)
         {
