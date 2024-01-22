@@ -62,7 +62,7 @@ public class QueryService : IQueryService
                 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                 PREFIX table: <http://cultural.heritage/Ethiopia#>
 
-                SELECT ?concept ?instanceLabel ?similarInstanceLabel
+                SELECT ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel
                 WHERE {{
                   VALUES ?content {{ {contentValuesString} }}
                   ?instance rdf:type ?concept.
@@ -73,12 +73,23 @@ public class QueryService : IQueryService
                     ?similarInstance table:similar_to ?instance.
                     ?similarInstance rdfs:label ?similarInstanceLabel.
                   }}
+                  OPTIONAL {{
+                    # Instances that are part of ?instance
+                    ?subPartInstance table:is_part_of ?instance.
+                    ?subPartInstance rdfs:label ?subPartInstanceLabel.
+                  }}
+
+                  OPTIONAL {{
+                    # Instances where ?instance is part of
+                    ?instance table:is_part_of ?mainPartInstance.
+                    ?mainPartInstance rdfs:label ?mainPartInstanceLabel.
+                  }}
   
                   FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
                   FILTER(?concept != owl:NamedIndividual)
                   FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
                 }}
-                GROUP BY ?concept ?instanceLabel ?similarInstanceLabel
+                GROUP BY ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel
                 ";
 
             SparqlQueryParser sparqlParser = new();
@@ -89,22 +100,25 @@ public class QueryService : IQueryService
 
             if(results is not null)
             {
+                var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
+
                 HashSet<string> concepts = new(results.Select(result => result["concept"].ToString()));
                 HashSet<string> instances = new(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
-                HashSet<string?> similarInstances = results
-                                    .Select(result => result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"]?.ToString()) : null)
-                                    .Where(label => label != null)
-                                    .ToHashSet();
+                instances.UnionWith(results
+                            .SelectMany(result => new[]
+                            {
+                                result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"]?.ToString()) : null,
+                                result.HasBoundValue("subPartInstanceLabel") ? Functions.CleanUpString(result["subPartInstanceLabel"]?.ToString()) : null,
+                                result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"]?.ToString()) : null
+                            })
+                            .Where(label => label != null));
 
-
-                var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
 
                 var responses = await _repository.FindDocuments(concepts, instances, filterParam);
 
                 foreach (var response in responses)
                 {
-                    if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())) ||
-                        (similarInstances?.Any(similarInstance => response.Title.ToLower().Contains(similarInstance.ToLower())) ?? false))
+                    if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())))
                     {
                         response.Tf += 10;
                     }

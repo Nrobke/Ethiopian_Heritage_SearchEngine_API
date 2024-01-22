@@ -771,6 +771,7 @@
         <location rdf:resource="http://cultural.heritage/Ethiopia#Axum_town"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Lai&apos;ilay_Maychew"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Aksum"/>
         <town rdf:resource="http://cultural.heritage/Ethiopia#Axum_town"/>
         <coordinates>14°7′15″N 38°43′40″E</coordinates>
         <description>Axum, also spelled Aksum, is a town in the Tigray Region of Ethiopia with a population of 66,900 residents. It is the site of the historic capital of the Aksumite Empire, a naval and trading power that ruled the whole region in addition parts of West Asia as Saudi Arabia, and Yemen. a naval and trading power that ruled the whole region in addition parts of West Asia as Saudi Arabia, and Yemen. It ruled the region from about 400 BCE into the 10th century. Axum is located at the La’ilay Maychew district of Ethiopia.</description>
@@ -820,7 +821,7 @@
         <description>This property protects a landscape mosaic of extraordinary beauty that is shaped by the combined forces of ancient lava outpourings, glaciation and the dissection by the Great Rift Valley. It features volcanic peaks and ridges, dramatic escarpments, sweeping valleys, glacial lakes, lush forests, deep gorges and numerous waterfalls, creating exceptional natural beauty. The property harbours diverse and unique biodiversity at ecosystem, species and genetic levels, and five major rivers originate within the Park, estimated to supply water and support the livelihoods of millions of people in and beyond Ethiopia.</description>
         <established rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1970</established>
         <official_name>Bale Mountains National Park</official_name>
-        <rdfs:label>bale mountains national park (BMNP)</rdfs:label>
+        <rdfs:label>bale mountains national park</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -920,16 +921,16 @@
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Biete_Giyorgis -->
+    <!-- http://cultural.heritage/Ethiopia#Biete_Giorgis -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Biete_Giyorgis">
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Biete_Giorgis">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
         <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Rock-Hewn_Churches_Lalibela"/>
         <coordinates>12°01′54″N 39°02′28″E</coordinates>
         <description>The Church of Saint George (Amharic: Bete Giyorgis) is one of eleven rock-hewn monolithic churches in Lalibela, a town in the Amhara Region of Ethiopia. Originally named Roha (Warwar), the historical and religious site was named Lalibela after the King Gebre Mesqel Lalibela of the Zagwe dynasty, who commissioned its construction. He is regarded as a saint by the Ethiopian Orthodox Tewahedo Church.</description>
         <english_name>Church of Saint George, Lalibela</english_name>
         <official_name>Biete Giyorgis</official_name>
-        <rdfs:label>biete giyorgis</rdfs:label>
+        <rdfs:label>biete giorgis</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1116,6 +1117,7 @@
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Sheik_Hussein"/>
         <town rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <coordinates>7°45′N 40°42′E</coordinates>
@@ -1123,16 +1125,6 @@
         <founded>10th century</founded>
         <official_name>Dirre Sheik Hussein Religious, Cultural and Historical Site</official_name>
         <rdfs:label>dirre sheik hussein religious cultural and historical site</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussien -->
-
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussien">
-        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
-        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
-        <rdfs:label>dirre sheik hussien</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1179,6 +1171,7 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Timket"/>
         <description>Ethiopian epiphany is a colourful festival celebrated all over Ethiopia to commemorate the baptism of Jesus Christ by John the Baptist in the River Jordan. The commemoration starts on the eve of the main festival on 18 January. The eve is known as Ketera, which means blocking the flow of water for the blessing of the celebrants.</description>
         <frequency>Once in a year</frequency>
         <observedby>Ethiopian Orthodox Tewahedo Church</observedby>
@@ -1192,7 +1185,7 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Ethiopian_wolf">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Animal"/>
-        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
         <rdfs:label>wolf</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1220,6 +1213,7 @@
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Emperor_Fasilides"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Gonder"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Fasil_Ghebbi,_Gondar_Region"/>
         <coordinates>12°36′27″N 37°28′12″E</coordinates>
         <description>The Fasil Ghebbi is a fortress located in Gondar, Amhara Region, Ethiopia. It was founded in the 17th century by Emperor Fasilides and was the home of Ethiopian emperors. Its unique architecture shows diverse influences including Hindu, Arab, and Baroque characteristics. Because of its historical importance and architecture, the fortress was inscribed as a UNESCO World Heritage Site in 1979. Ghebbi is an Amharic word for a compound or enclosure.</description>
         <founded>1645</founded>
@@ -1334,7 +1328,7 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Gelada">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Animal"/>
-        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
         <rdfs:label>gelada</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1432,11 +1426,12 @@
         <kebele rdf:resource="http://cultural.heritage/Ethiopia#Hamera_kebele"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Hamera_kebele"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Sof_Omar_Caves"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <coordinates>6°54′22.7″N 40°50′41.6″E</coordinates>
         <description>Holqa Sof Omar: is one of the most spectacular and extensive underground caverns in the world: the Sof Omar cave system. Formed by the Weib River as it changed its course in the distant past and carved a new channel through limestone foothills, the Sof Omar cave system is an extraordinary natural phenomenon of breathtaking beauty.</description>
         <official_name>Holqa Sof Omar: Natural and Cultural Heritage (Sof Omar: Caves of Mystery)</official_name>
-        <rdfs:label>sof omar</rdfs:label>
+        <rdfs:label>holqa sof omar</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1598,6 +1593,16 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Melka_Kunture -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Melka_Kunture">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Natural_Landscape"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Melka_Kunture_and_Balchit"/>
+        <rdfs:label>melka kunture</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Melka_Kunture_and_Balchit -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Melka_Kunture_and_Balchit">
@@ -1608,6 +1613,7 @@
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Natural"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Upper_Awash_Valley"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Melka_Kunture"/>
         <coordinates>8.7051°N 38.5991°E</coordinates>
         <description>Melka Kunture, as it can be seen today, is part of a gently undulating landscape of the Upper Awash Valley, in the highlands of Ethiopia, at c. 2000m asl. All over the Upper Pliocene and the Pleistocene, tectonic activities led to the deepening of the demi-graben depression were the meandering paleo-Awash deposited alluvia. Through time, parts of the paleo-landscape were buried again and again, blanketed both by alluvial deposits, and by volcanic deposits produced by the nearby volcanoes. Accordingly, past surfaces, littered with archaeological implement and prehistoric animal remains, were covered by sediments and escaped destruction. They are now evidenced by natural erosion on the banks of the little gullies of the local tributaries of the Awash.</description>
         <official_name>Melka Kunture and Balchit</official_name>
@@ -1769,6 +1775,16 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Sheik_Hussein -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheik_Hussein">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
+        <rdfs:label>sheik hussein</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein">
@@ -1779,12 +1795,12 @@
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Sheikh_Hussein -->
+    <!-- http://cultural.heritage/Ethiopia#Sheikh_Hussein_Town -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheikh_Hussein">
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheikh_Hussein_Town">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Town"/>
         <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
-        <rdfs:label>sheikh hussein</rdfs:label>
+        <rdfs:label>sheikh hussein town</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1821,7 +1837,7 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Simien_Mountains">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Natural_Landscape"/>
-        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
         <rdfs:label>siemien mountains</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1831,6 +1847,16 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#National_park"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
+        <rdfs:label>simien mountains national park</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Simien_National_Park -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Simien_National_Park">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#National_park"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
@@ -1839,6 +1865,7 @@
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Debark"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Mekane_Berhan"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
         <area>220km^2 (85 sq mi)</area>
         <coordinates>13°11′N 38°4′E</coordinates>
         <description>Massive erosion over the years on the Ethiopian plateau has created one of the most spectacular landscapes in the world, with jagged mountain peaks, deep valleys and sharp precipices dropping some 1,500 m. The park is home to some extremely rare animals such as the Gelada baboon, the Simien fox and the Walia ibex, a goat found nowhere else in the world.</description>
@@ -1855,6 +1882,16 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Woreda"/>
         <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Gurage_Zone"/>
         <rdfs:label>soddo</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Sof_Omar_Caves -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sof_Omar_Caves">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Natural_Landscape"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Holqa_Sof_Omar"/>
+        <rdfs:label>sof omar caves</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1888,6 +1925,7 @@
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Yeha"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Central_Zone"/>
         <coordinates>14°17′8.36″N 39°1′8.61″E</coordinates>
         <description>The site of Yeha is located in a modern town hidden by the Adwa chains of mountains about 53 km to the west of the World Heritage Site of Aksum in Central Administrative zone of Tigray National Regional State in northern Ethiopia. It is located in a fertile basin with an altitude of 2150 m surrounded by spectacular volcanic mountain chains. It is a sacred place for the Ethiopian Orthodox Christians, a living memory and religious practices of the same believers since the foundation of the Monastery of Abune Aftsie in the six century AD by one of the Nine Saints who came to the Northern Horn from the Europe and the Middle East in the same century for evangelization.</description>
@@ -1906,6 +1944,7 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Addis_Ababa"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Maskel"/>
         <description>The festival of Maskel is celebrated across Ethiopia on 26 September to commemorate the unearthing of the True Holy Cross of Christ. Celebrations begin with the building of the Damera bonfire in Maskel Square in Addis Ababa – a conical pyre of poles surrounded by bundles of branches and torches, decorated with green grass and Abyssinian daisies symbolizing the New Year. Hundreds of thousands of people from diverse communities flock to the square as colourfully dressed priests chant hymns and prayers and perform their unique rhythmic dance in front of the pyre. At the climax, the patriarch of the Ethiopian Orthodox Tewahedo Church lights the bonfire. Maskel is celebrated nationwide regardless of age, gender, language or ethnicity.</description>
         <frequency>Once in a year</frequency>
         <observedby>Ethiopian Orthodox Tewahedo Church</observedby>
@@ -2020,7 +2059,7 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#bearded_vulture">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Animal"/>
-        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
         <rdfs:label>vulture</rdfs:label>
     </owl:NamedIndividual>
     
@@ -2030,7 +2069,7 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#caracal">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Animal"/>
-        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
         <rdfs:label>caracal</rdfs:label>
     </owl:NamedIndividual>
     
@@ -2040,7 +2079,7 @@
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#walia_ibex">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Animal"/>
-        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Simien_National_Park"/>
         <rdfs:label>walia ibex</rdfs:label>
     </owl:NamedIndividual>
     
@@ -2052,6 +2091,26 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Highland"/>
         <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
         <rdfs:label>western ethiopia highlands</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Church_of_Saint_George,_Lalibela -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Church_of_Saint_George,_Lalibela">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Biete_Giorgis"/>
+        <rdfs:label>church of saint george, lalibela</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Fasil_Ghebbi,_Gondar_Region -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Fasil_Ghebbi,_Gondar_Region">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Castle"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Fasil_Ghebbi"/>
+        <rdfs:label>fasil ghebbi, gondar region</rdfs:label>
     </owl:NamedIndividual>
     
 
