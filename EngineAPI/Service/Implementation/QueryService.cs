@@ -21,41 +21,46 @@ public class QueryService : IQueryService
     }
     public async Task<ResponseModel<dynamic>> QueryAnnotator(Dictionary<string, string> queryParam)
     {
-        if (!queryParam.TryGetValue("query", out string textValue))
-            return new ResponseModel<dynamic> { Success = false, Message = "The 'query' key is missing in the queryParams." };
-        
-
-        if(textValue is not null && textValue.Length > 3)
+        try
         {
-            var context = new MLContext();
-            var emptyData = new List<TextData>();
-            var data = context.Data.LoadFromEnumerable(emptyData);
+            if (!queryParam.TryGetValue("query", out string textValue))
+                return new ResponseModel<dynamic> { Success = false, Message = "The 'query' key is missing in the queryParams." };
 
-            var tokenization = context.Transforms.Text.TokenizeIntoWords("Tokens", "Text", separators: new[] { ' ', '.', ',' })
-                .Append(context.Transforms.Text.RemoveDefaultStopWords("Tokens", "Tokens",
-                    Microsoft.ML.Transforms.Text.StopWordsRemovingEstimator.Language.English));
 
-            var tokenModel = tokenization.Fit(data);
-            var engine = context.Model.CreatePredictionEngine<TextData, TextTokens>(tokenModel);
-            var tokens = engine.Predict(new TextData { Text = textValue });
-
-            List<string> contentValues = new();
-            foreach (var token in tokens.Tokens)
+            if (textValue is not null && textValue.Length > 3)
             {
-                if (token.Length < 3)
-                    continue;
+                var context = new MLContext();
+                var emptyData = new List<TextData>();
+                var data = context.Data.LoadFromEnumerable(emptyData);
 
-                // Escape and add each content value to the list
-                contentValues.Add($"\"{Functions.EscapeString(token)}\"");
-            }
+                var tokenization = context.Transforms.Text.TokenizeIntoWords("Tokens", "Text", separators: new[] { ' ', '.', ',' })
+                    .Append(context.Transforms.Text.RemoveDefaultStopWords("Tokens", "Tokens",
+                        Microsoft.ML.Transforms.Text.StopWordsRemovingEstimator.Language.English));
 
-            string contentValuesString = string.Join(" ", contentValues);
+                var tokenModel = tokenization.Fit(data);
+                var engine = context.Model.CreatePredictionEngine<TextData, TextTokens>(tokenModel);
+                var tokens = engine.Predict(new TextData { Text = textValue });
 
-            IGraph graph = new Graph();
-            FileLoader.Load(graph, "CulturalHeritage.rdf");
-            ISparqlDataset dataset = new InMemoryDataset(graph);
+                if (!tokens.Tokens.Any())
+                    return new ResponseModel<dynamic> { Success = false, Message = "Please enter correct words." };
 
-            string sparqlQuery = $@"
+                List<string> contentValues = new();
+                foreach (var token in tokens.Tokens)
+                {
+                    if (token.Length < 3)
+                        continue;
+
+                    // Escape and add each content value to the list
+                    contentValues.Add($"\"{Functions.EscapeString(token)}\"");
+                }
+
+                string contentValuesString = string.Join(" ", contentValues);
+
+                IGraph graph = new Graph();
+                FileLoader.Load(graph, "CulturalHeritage.rdf");
+                ISparqlDataset dataset = new InMemoryDataset(graph);
+
+                string sparqlQuery = $@"
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -92,45 +97,50 @@ public class QueryService : IQueryService
                 GROUP BY ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel
                 ";
 
-            SparqlQueryParser sparqlParser = new();
-            SparqlQuery query = sparqlParser.ParseFromString(sparqlQuery);
+                SparqlQueryParser sparqlParser = new();
+                SparqlQuery query = sparqlParser.ParseFromString(sparqlQuery);
 
-            LeviathanQueryProcessor queryProcessor = new(dataset);
-            SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
+                LeviathanQueryProcessor queryProcessor = new(dataset);
+                SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
 
-            if(results is not null)
-            {
-                var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
-
-                HashSet<string> concepts = new(results.Select(result => result["concept"].ToString()));
-                HashSet<string> instances = new(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
-                instances.UnionWith(results
-                            .SelectMany(result => new[]
-                            {
-                                result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"]?.ToString()) : null,
-                                result.HasBoundValue("subPartInstanceLabel") ? Functions.CleanUpString(result["subPartInstanceLabel"]?.ToString()) : null,
-                                result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"]?.ToString()) : null
-                            })
-                            .Where(label => label != null));
-
-
-                var responses = await _repository.FindDocuments(concepts, instances, filterParam);
-
-                foreach (var response in responses)
+                if (results is not null)
                 {
-                    if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())))
+                    var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
+
+                    HashSet<string> concepts = new(results.Select(result => result["concept"].ToString()));
+                    HashSet<string?> instances = new(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
+                    instances.UnionWith(results
+                                .SelectMany(result => new[]
+                                {
+                                result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"].ToString()) : null,
+                                result.HasBoundValue("subPartInstanceLabel") ? Functions.CleanUpString(result["subPartInstanceLabel"].ToString()) : null,
+                                result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"].ToString()) : null
+                                })
+                                .Where(label => label != null));
+
+
+                    var responses = await _repository.FindDocuments(concepts, instances, filterParam);
+
+                    foreach (var response in responses)
                     {
-                        response.Tf += 10;
+                        if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())))
+                        {
+                            response.Tf += 10;
+                        }
                     }
+
+
+                    return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
                 }
 
 
-                return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
             }
 
-            
+            return new ResponseModel<dynamic> { Success = false, Message = "please add search text" };
         }
-
-        return new ResponseModel<dynamic> {Success = false, Message = "please add search text" };
+        catch (Exception x)
+        {
+            return new ResponseModel<dynamic> { Success = false, Message = x.Message };
+        }
     }
 }

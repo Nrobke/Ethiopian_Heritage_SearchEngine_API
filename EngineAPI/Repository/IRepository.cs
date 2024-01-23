@@ -18,5 +18,5 @@ public interface IRepository
     void Save();
     Task<List<TEntity>> BulkSave<TEntity>(List<TEntity> entities) where TEntity : class;
 
-    Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts, HashSet<string> instances, string filter);
+    Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts, HashSet<string?> instances, string filter);
 }

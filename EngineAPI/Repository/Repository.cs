@@ -116,7 +116,7 @@ public class Repository : IRepository
         catch (Exception) { throw; }
     }
 
-    public async Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts, HashSet<string> instances, string filter)
+    public async Task<List<VwIndicesView>> FindDocuments(HashSet<string> concepts, HashSet<string?> instances, string filter)
     {
         try
         {

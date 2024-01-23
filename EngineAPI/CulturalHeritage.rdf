@@ -650,6 +650,22 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Abuna_Yemata_Guh -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Abuna_Yemata_Guh">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
+        <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
+        <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
+        <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
+        <description>Abuna Yemata Guh is a monolithic church located in the Hawzen woreda of the Tigray Region, Ethiopia. It is situated at a height of 2,580 metres (8,460 ft) and has to be climbed on foot to reach. It is notable for its dome and wall paintings dating back to the 5th century and its architecture.</description>
+        <official_name>Abuna Yemata Guh</official_name>
+        <rdfs:label>abuna yemata guh</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Adama -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Adama">
@@ -1117,14 +1133,14 @@
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
-        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Sheik_Hussein"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Sheikh_Hussein"/>
         <town rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <coordinates>7°45′N 40°42′E</coordinates>
         <description>Dine Sheik Hussein is located in the South Eastern part of Ethiopia. It is a 10th century Islamic centre of pilgrimage for people coming from different corners of the country, and Islamic communities of the Horn and the Middle East countries, twice a year. Dirre Sheik Hussein is a site of magnificent groups of buildings, monumental tombs and courts representing early medieval period of Islamic architecture and buildings of significant engineering qualities.</description>
         <founded>10th century</founded>
         <official_name>Dirre Sheik Hussein Religious, Cultural and Historical Site</official_name>
-        <rdfs:label>dirre sheik hussein religious cultural and historical site</rdfs:label>
+        <rdfs:label>dirre sheik hussein religious, cultural and historical site</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1775,22 +1791,22 @@
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Sheik_Hussein -->
-
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheik_Hussein">
-        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
-        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
-        <rdfs:label>sheik hussein</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Founder"/>
         <full_name>Sheik Nur Hussein</full_name>
         <rdfs:label>sheik nur hussein</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Sheikh_Hussein -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Sheikh_Hussein">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
+        <rdfs:label>sheikh hussein</rdfs:label>
     </owl:NamedIndividual>
     
 
