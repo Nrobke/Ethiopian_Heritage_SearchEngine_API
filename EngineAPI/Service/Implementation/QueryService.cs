@@ -93,6 +93,11 @@ public class QueryService : IQueryService
                   FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
                   FILTER(?concept != owl:NamedIndividual)
                   FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
+
+                   # Exclude instances whose parent is table:geographical_area
+                   FILTER NOT EXISTS {{
+                    ?concept rdfs:subClassOf* table:Geographical_area. 
+                   }}
                 }}
                 GROUP BY ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel
                 ";
@@ -112,9 +117,9 @@ public class QueryService : IQueryService
                     instances.UnionWith(results
                                 .SelectMany(result => new[]
                                 {
-                                result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"].ToString()) : null,
-                                result.HasBoundValue("subPartInstanceLabel") ? Functions.CleanUpString(result["subPartInstanceLabel"].ToString()) : null,
-                                result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"].ToString()) : null
+                                    result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("subPartInstanceLabel") ? Functions.CleanUpString(result["subPartInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"].ToString()) : null
                                 })
                                 .Where(label => label != null));
 
@@ -123,16 +128,17 @@ public class QueryService : IQueryService
 
                     foreach (var response in responses)
                     {
-                        if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower())))
-                        {
-                            response.Tf += 10;
-                        }
-                    }
+                        var splitedTitle = response.Title.Split(",")[0];
 
+                        if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower()) || splitedTitle.ToLower().Contains(instance.Split(",")[0].ToLower())))
+                            response.Tf += 10;
+
+                        else if(response.Title.Contains(Constants.RootDocument))
+                            response.Tf += 5;
+                    }
 
                     return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
                 }
-
 
             }
 
