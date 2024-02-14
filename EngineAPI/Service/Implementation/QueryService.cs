@@ -8,6 +8,8 @@ using VDS.RDF.Query.Datasets;
 using VDS.RDF;
 using VDS.RDF.Query;
 using EngineAPI.Domain.DataModels;
+using Newtonsoft.Json.Linq;
+using Microsoft.Data.SqlClient.DataClassification;
 
 namespace EngineAPI.Service.Implementation;
 
@@ -61,45 +63,130 @@ public class QueryService : IQueryService
                 ISparqlDataset dataset = new InMemoryDataset(graph);
 
                 string sparqlQuery = $@"
-                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                PREFIX table: <http://cultural.heritage/Ethiopia#>
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                    PREFIX table: <http://cultural.heritage/Ethiopia#>
 
-                SELECT ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel
-                WHERE {{
-                  VALUES ?content {{ {contentValuesString} }}
-                  ?instance rdf:type ?concept.
-                  ?instance rdfs:label ?instanceLabel .
+                    SELECT ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel ?csinstanceLabel ?domainInstanceLabel ?tempInstanceLabel ?altInstanceLabel
+					       ?typeInstanceLabel ?regionInstaceLabel ?founderInstanceLabel ?mainPartConcept ?csconcept ?domainConcept ?tempConcept ?altConcept ?typeConcept ?regionConcept ?founderConcept 
+					       ?founderInstaSimLabel ?regionInstaSimLabel ?typeInstaSimLabel ?altInstaSimLabel ?tempInstaSimLabel ?domainInstaSimLabel ?csinstasimlabel
+                    WHERE {{{{
+                      VALUES ?content {{{ contentValuesString }}}
+                      ?instance rdf:type ?concept.
+                      ?instance rdfs:label ?instanceLabel .
                     
-                  OPTIONAL {{
-                    # Similar instances connected by table:similar_to
-                    ?similarInstance table:similar_to ?instance.
-                    ?similarInstance rdfs:label ?similarInstanceLabel.
-                  }}
-                  OPTIONAL {{
-                    # Instances that are part of ?instance
-                    ?subPartInstance table:is_part_of ?instance.
-                    ?subPartInstance rdfs:label ?subPartInstanceLabel.
-                  }}
+                      OPTIONAL {{{{
+                        # Similar instances connected by table:similar_to
+                        ?similarInstance table:similar_to ?instance.
+                        ?similarInstance rdfs:label ?similarInstanceLabel.
+                      }}}}
+                      OPTIONAL {{{{
+                        # Instances that are part of ?instance
+                        ?subPartInstance table:is_part_of ?instance.
+                        ?subPartInstance rdfs:label ?subPartInstanceLabel.
+                      }}}}
 
-                  OPTIONAL {{
-                    # Instances where ?instance is part of
-                    ?instance table:is_part_of ?mainPartInstance.
-                    ?mainPartInstance rdfs:label ?mainPartInstanceLabel.
-                  }}
+                      OPTIONAL {{{{
+                        # Instances where ?instance is part of
+                        ?instance table:is_part_of ?mainPartInstance.
+                        ?mainPartInstance rdfs:label ?mainPartInstanceLabel.
+        			    ?mainPartInstance rdf:type ?mainPartConcept.
+                      }}}}
+    			
+    			     OPTIONAL {{{{
+                        ?csinstance table:current_status ?instance.
+                        ?csinstance rdfs:label ?csinstanceLabel.
+        			    ?csinstance rdf:type ?csconcept.
+        			    optional{{{{
+            			    ?csinstance table:similar_to ?csinstasim.
+        				    ?csinstasim rdfs:label ?csinstasimlabel.
+          			    }}}}
+        			
+                      }}}}
+    
+    			     Optional{{{{
+    				    ?domainInstance table:has_domain ?instance.
+        			    ?domainInstance rdfs:label ?domainInstanceLabel.
+        			    ?domainInstance rdf:type ?domainConcept.
+        			    optional{{{{
+            			    ?domainInstance table:similar_to ?domainInstaSim.
+        				    ?domainInstaSim rdfs:label ?domainInstaSimLabel.
+          			    }}}}
+        			
+      			     }}}}
+    
+    			     Optional{{{{
+                        ?tempInstance table:has_temperature ?instance.
+                        ?tempInstance rdfs:label ?tempInstanceLabel.
+        			    ?tempInstance rdf:type ?tempConcept.
+        			    optional {{{{
+            			    ?tempInstance table:similar_to ?tempInstaSim.
+        				    ?tempInstaSim rdfs:label ?tempInstaSimLabel.
+          			    }}}}
+        			
+      			     }}}}
+    
+    			     Optional{{{{
+        			    ?altInstance table:has_altitude ?instance.
+        			    ?altInstance rdfs:label ?altInstanceLabel.
+        			    ?altInstance rdf:type ?altConcept.
+        			    optional{{{{
+            			    ?altInstance table:similar_to ?altInstaSim.
+        				    ?altInstaSim rdfs:label ?altInstaSimLabel.
+          			    }}}}
+        			
+      			     }}}}
+    
+    			     Optional{{{{
+        			    ?typeInstance table:type_of ?instance.
+        			    ?typeInstance rdfs:label ?typeInstanceLabel.
+        			    ?typeInstance rdf:type ?typeConcept.
+        			    optional {{{{
+            			    ?typeInstance table:similar_to ?typeInstaSim.
+        				    ?typeInstaSim rdfs:label ?typeInstaSimLabel.
+          			    }}}}
+        			
+      			     }}}}
+    			
+    			     Optional{{{{
+        			    ?regionInstance table:region ?instance.
+        			    ?regionInstance rdfs:label ?regionInstaceLabel.
+        			    ?regionInstance rdf:type ?regionConcept.
+        			    optional{{{{
+            			    ?regionInstance table:similar_to ?regionInstaSim.
+        				    ?regionInstaSim rdfs:label ?regionInstaSimLabel.
+          			    }}}}
+        			
+      			     }}}}
+    
+    			     Optional {{{{
+        			    ?founderInstance table:has_founder ?instance.
+        			    ?founderInstance rdfs:label ?founderInstanceLabel.
+        			    ?founderInstance rdf:type ?founderConcept.
+        			    optional{{{{
+            			    ?founderInstance table:similar_to ?founderInstaSim.
+        				    ?founderInstaSim rdfs:label ?founderInstaSimLabel.
+          			    }}}}
+        			
+      			     }}}}
   
-                  FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
-                  FILTER(?concept != owl:NamedIndividual)
-                  FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
-
-                   # Exclude instances whose parent is table:geographical_area
-                   FILTER NOT EXISTS {{
-                    ?concept rdfs:subClassOf* table:Geographical_area. 
-                   }}
-                }}
-                GROUP BY ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel
+                      FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
+                      FILTER(?concept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?csconcept) || ?csconcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?mainPartConcept) || ?mainPartConcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?domainConcept) || ?domainConcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?tempConcept) || ?tempConcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?altConcept) || ?altConcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?typeConcept) || ?typeConcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?regionConcept) || ?regionConcept != owl:NamedIndividual)
+    			      FILTER(!BOUND(?founderConcept) || ?founderConcept != owl:NamedIndividual)
+                      FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
+                    }}}}
+                    GROUP BY ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel ?csinstanceLabel ?domainInstanceLabel ?tempInstanceLabel ?altInstanceLabel
+						     ?typeInstanceLabel ?regionInstaceLabel ?founderInstanceLabel ?csconcept ?mainPartConcept ?domainConcept ?tempConcept ?altConcept ?typeConcept ?regionConcept
+						     ?founderConcept ?founderInstaSimLabel ?regionInstaSimLabel ?typeInstaSimLabel ?altInstaSimLabel ?tempInstaSimLabel ?domainInstaSimLabel ?csinstasimlabel
                 ";
 
                 SparqlQueryParser sparqlParser = new();
@@ -112,17 +199,45 @@ public class QueryService : IQueryService
                 {
                     var filterParam = "http://cultural.heritage/Ethiopia#Geographical_area";
 
-                    HashSet<string> concepts = new(results.Select(result => result["concept"].ToString()));
+                    HashSet<string?> concepts = new(results.Select(result => result["concept"].ToString()));
                     HashSet<string?> instances = new(results.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
                     instances.UnionWith(results
                                 .SelectMany(result => new[]
                                 {
                                     result.HasBoundValue("similarInstanceLabel") ? Functions.CleanUpString(result["similarInstanceLabel"].ToString()) : null,
                                     result.HasBoundValue("subPartInstanceLabel") ? Functions.CleanUpString(result["subPartInstanceLabel"].ToString()) : null,
-                                    result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"].ToString()) : null
+                                    result.HasBoundValue("mainPartInstanceLabel") ? Functions.CleanUpString(result["mainPartInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("domainInstanceLabel") ? Functions.CleanUpString(result["domainInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("csinstanceLabel") ? Functions.CleanUpString(result["csinstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("tempInstanceLabel") ? Functions.CleanUpString(result["tempInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("altInstanceLabel") ? Functions.CleanUpString(result["altInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("typeInstanceLabel") ? Functions.CleanUpString(result["typeInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("regionInstaceLabel") ? Functions.CleanUpString(result["regionInstaceLabel"].ToString()) : null,
+                                    result.HasBoundValue("founderInstanceLabel") ? Functions.CleanUpString(result["founderInstanceLabel"].ToString()) : null,
+                                    result.HasBoundValue("founderInstaSimLabel") ? Functions.CleanUpString(result["founderInstaSimLabel"].ToString()) : null,
+                                    result.HasBoundValue("regionInstaSimLabel") ? Functions.CleanUpString(result["regionInstaSimLabel"].ToString()) : null,
+                                    result.HasBoundValue("typeInstaSimLabel") ? Functions.CleanUpString(result["typeInstaSimLabel"].ToString()) : null,
+                                    result.HasBoundValue("altInstaSimLabel") ? Functions.CleanUpString(result["altInstaSimLabel"].ToString()) : null,
+                                    result.HasBoundValue("tempInstaSimLabel") ? Functions.CleanUpString(result["tempInstaSimLabel"].ToString()) : null,
+                                    result.HasBoundValue("domainInstaSimLabel") ? Functions.CleanUpString(result["domainInstaSimLabel"].ToString()) : null,
+                                    result.HasBoundValue("csinstasimlabel") ? Functions.CleanUpString(result["csinstasimlabel"].ToString()) : null,
+
                                 })
                                 .Where(label => label != null));
 
+                    concepts.UnionWith(results
+                               .SelectMany(result => new[]
+                               {
+                                    result.HasBoundValue("csconcept") ? Functions.CleanUpString(result["csconcept"].ToString()) : null,
+                                    result.HasBoundValue("mainPartConcept") ? Functions.CleanUpString(result["mainPartConcept"].ToString()) : null,
+                                    result.HasBoundValue("domainConcept") ? Functions.CleanUpString(result["domainConcept"].ToString()) : null,
+                                    result.HasBoundValue("tempConcept") ? Functions.CleanUpString(result["tempConcept"].ToString()) : null,
+                                    result.HasBoundValue("altConcept") ? Functions.CleanUpString(result["altConcept"].ToString()) : null,
+                                    result.HasBoundValue("typeConcept") ? Functions.CleanUpString(result["typeConcept"].ToString()) : null,
+                                    result.HasBoundValue("regionConcept") ? Functions.CleanUpString(result["regionConcept"].ToString()) : null,
+                                    result.HasBoundValue("founderConcept") ? Functions.CleanUpString(result["founderConcept"].ToString()) : null,
+                               })
+                                .Where(label => label != null));
 
                     var responses = await _repository.FindDocuments(concepts, instances, filterParam);
 

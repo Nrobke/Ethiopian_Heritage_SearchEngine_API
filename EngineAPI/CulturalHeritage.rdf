@@ -69,6 +69,15 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#has_altitude -->
+
+    <owl:ObjectProperty rdf:about="http://cultural.heritage/Ethiopia#has_altitude">
+        <rdfs:domain rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
+        <rdfs:range rdf:resource="http://cultural.heritage/Ethiopia#Altitude"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#has_domain -->
 
     <owl:ObjectProperty rdf:about="http://cultural.heritage/Ethiopia#has_domain">
@@ -92,6 +101,15 @@
     <owl:ObjectProperty rdf:about="http://cultural.heritage/Ethiopia#has_legacy">
         <rdfs:domain rdf:resource="http://cultural.heritage/Ethiopia#Governance"/>
         <rdfs:range rdf:resource="http://cultural.heritage/Ethiopia#Cultural"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#has_temperature -->
+
+    <owl:ObjectProperty rdf:about="http://cultural.heritage/Ethiopia#has_temperature">
+        <rdfs:domain rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
+        <rdfs:range rdf:resource="http://cultural.heritage/Ethiopia#Temperature_scale"/>
     </owl:ObjectProperty>
     
 
@@ -160,6 +178,15 @@
     <owl:ObjectProperty rdf:about="http://cultural.heritage/Ethiopia#town">
         <rdfs:domain rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
         <rdfs:range rdf:resource="http://cultural.heritage/Ethiopia#Town"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#type_of -->
+
+    <owl:ObjectProperty rdf:about="http://cultural.heritage/Ethiopia#type_of">
+        <rdfs:domain rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <rdfs:range rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
     </owl:ObjectProperty>
     
 
@@ -305,6 +332,12 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Altitude -->
+
+    <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Altitude"/>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Animal -->
 
     <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Animal">
@@ -427,9 +460,7 @@
 
     <!-- http://cultural.heritage/Ethiopia#Heritage -->
 
-    <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Heritage">
-        <rdfs:label>heritage</rdfs:label>
-    </owl:Class>
+    <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Heritage"/>
     
 
 
@@ -599,6 +630,12 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Temperature_scale -->
+
+    <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Temperature_scale"/>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Temple -->
 
     <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Temple">
@@ -612,6 +649,12 @@
     <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Town">
         <rdfs:subClassOf rdf:resource="http://cultural.heritage/Ethiopia#Geographical_area"/>
     </owl:Class>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Type -->
+
+    <owl:Class rdf:about="http://cultural.heritage/Ethiopia#Type"/>
     
 
 
@@ -658,7 +701,11 @@
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Cold"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
         <description>Abuna Yemata Guh is a monolithic church located in the Hawzen woreda of the Tigray Region, Ethiopia. It is situated at a height of 2,580 metres (8,460 ft) and has to be climbed on foot to reach. It is notable for its dome and wall paintings dating back to the 5th century and its architecture.</description>
         <official_name>Abuna Yemata Guh</official_name>
         <rdfs:label>abuna yemata guh</rdfs:label>
@@ -782,13 +829,18 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#High"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Ezana"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Axum_town"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Lai&apos;ilay_Maychew"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Aksum"/>
         <town rdf:resource="http://cultural.heritage/Ethiopia#Axum_town"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Monument"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <coordinates>14°7′15″N 38°43′40″E</coordinates>
         <description>Axum, also spelled Aksum, is a town in the Tigray Region of Ethiopia with a population of 66,900 residents. It is the site of the historic capital of the Aksumite Empire, a naval and trading power that ruled the whole region in addition parts of West Asia as Saudi Arabia, and Yemen. a naval and trading power that ruled the whole region in addition parts of West Asia as Saudi Arabia, and Yemen. It ruled the region from about 400 BCE into the 10th century. Axum is located at the La’ilay Maychew district of Ethiopia.</description>
         <founded>4th century</founded>
@@ -825,12 +877,17 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#High"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Natural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Cold"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Adama"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Bale_Robe"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Shashamane"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#National_park"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <area>2,220 km2 (860 sq mi)</area>
         <coordinates>6°40′N 39°40′E</coordinates>
@@ -1044,6 +1101,14 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Castle -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Castle">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Central_Ethiopia_Regional_State -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Central_Ethiopia_Regional_State">
@@ -1064,6 +1129,35 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Ceremony -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Ceremony">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Cold -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Cold">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temperature_scale"/>
+        <rdfs:label>cold</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Commemoration_feast_of_the_finding_of_the_True_Holy_Cross_of_Christ -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Commemoration_feast_of_the_finding_of_the_True_Holy_Cross_of_Christ">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Maskel"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#The_festival_of_Maskel"/>
+        <rdfs:label>commemoration feast of the finding of the true holy cross of christ</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Common_Duiker -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Common_Duiker">
@@ -1074,11 +1168,26 @@
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Cultural_antropology -->
+    <!-- http://cultural.heritage/Ethiopia#Cultural -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Cultural_antropology">
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Cultural">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Domain"/>
-        <rdfs:label>curtural antropology</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Cultural_Landscape -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Cultural_Landscape">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Cultural_town -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Cultural_town">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
     </owl:NamedIndividual>
     
 
@@ -1130,11 +1239,16 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Moderate_altitude"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Sheik_Nur_Hussein"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Hot"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Sheikh_Hussein"/>
         <town rdf:resource="http://cultural.heritage/Ethiopia#Dirre_Sheik_Hussein_Religious_Cultural_and_Historical_Site"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <coordinates>7°45′N 40°42′E</coordinates>
         <description>Dine Sheik Hussein is located in the South Eastern part of Ethiopia. It is a 10th century Islamic centre of pilgrimage for people coming from different corners of the country, and Islamic communities of the Horn and the Middle East countries, twice a year. Dirre Sheik Hussein is a site of magnificent groups of buildings, monumental tombs and courts representing early medieval period of Islamic architecture and buildings of significant engineering qualities.</description>
@@ -1187,7 +1301,13 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Festival"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Timket"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Intangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Social_practice"/>
         <description>Ethiopian epiphany is a colourful festival celebrated all over Ethiopia to commemorate the baptism of Jesus Christ by John the Baptist in the River Jordan. The commemoration starts on the eve of the main festival on 18 January. The eve is known as Ketera, which means blocking the flow of water for the blessing of the celebrants.</description>
         <frequency>Once in a year</frequency>
         <observedby>Ethiopian Orthodox Tewahedo Church</observedby>
@@ -1225,16 +1345,30 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#High"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Emperor_Fasilides"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Gonder"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Fasil_Ghebbi,_Gondar_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Castle"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <coordinates>12°36′27″N 37°28′12″E</coordinates>
         <description>The Fasil Ghebbi is a fortress located in Gondar, Amhara Region, Ethiopia. It was founded in the 17th century by Emperor Fasilides and was the home of Ethiopian emperors. Its unique architecture shows diverse influences including Hindu, Arab, and Baroque characteristics. Because of its historical importance and architecture, the fortress was inscribed as a UNESCO World Heritage Site in 1979. Ghebbi is an Amharic word for a compound or enclosure.</description>
         <founded>1645</founded>
         <official_name>Fasil Ghebbi</official_name>
         <rdfs:label>fasil ghebbi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Festival -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Festival">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Domain"/>
+        <rdfs:label>festival</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1245,7 +1379,13 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Festival"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Sidama_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Fichee-Chambalaalla,_New_Year_festival_of_the_Sidama_people"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Intangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Social_practice"/>
         <description>Fichee-Chambalaalla is a New Year festival celebrated among the Sidama people. According to the oral tradition, Fichee commemorates a Sidama woman who visited her parents and relatives once a year after her marriage, bringing buurisame, a meal prepared from false banana, milk and butter, which was shared with neighbours. Fichee has since become a unifying symbol of the Sidama people. Each year, astrologers determine the correct date for the festival, which is then announced to the clans.</description>
         <frequency>Once in a year</frequency>
         <observedby>Sidama people</observedby>
@@ -1271,8 +1411,14 @@
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#System_of_Governance"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Cultural"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Gada_system,_an_indigenous_democratic_socio-political_system_of_the_Oromo"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Intangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Social_practice"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#System_of_governance"/>
         <description>Gada is a traditional system of governance used by the Oromo people in Ethiopia developed from knowledge gained by community experience over generations. The system regulates political, economic, social and religious activities of the community dealing with issues such as conflict resolution, reparation and protecting women’s rights. It serves as a mechanism for enforcing moral conduct, building social cohesion, and expressing forms of community culture.</description>
         <observedby>Oromo people</observedby>
         <official_name>Gada system, an indigenous democratic socio-political system of the Oromo</official_name>
@@ -1318,8 +1464,13 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Moderate_altitude"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Natural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#South_Ethiopia_Regional_State"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Cultural_Landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Gedeo_Zone"/>
         <area>29,620 ha (114.4 sq mi)</area>
         <coordinates>6°14′56″N 38°17′16″E</coordinates>
@@ -1398,9 +1549,14 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Moderate_altitude"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Harar"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Harari_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Cultural_town"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <built>the 13th and 16th centuries</built>
         <coordinates>9°18′40″N 42°7′40″E</coordinates>
         <description>The fortified historic town of Harar is located in the eastern part of the country on a plateau with deep gorges surrounded by deserts and savannah. The walls surrounding this sacred Muslim city were built between the 13th and 16th centuries. Harar Jugol, said to be the fourth holiest city of Islam, numbers 82 mosques, three of which date from the 10th century, and 102 shrines, but the townhouses with their exceptional interior design constitute the most spectacular part of Harar&apos;s cultural heritage. The impact of African and Islamic traditions on the development of the town&apos;s building types and urban layout make for its particular character and uniqueness.</description>
@@ -1430,6 +1586,23 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Heritage -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Heritage">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#High -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#High">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Altitude"/>
+        <rdfs:label>high</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Holqa_Sof_Omar -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Holqa_Sof_Omar">
@@ -1443,6 +1616,9 @@
         <location rdf:resource="http://cultural.heritage/Ethiopia#Hamera_kebele"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Sof_Omar_Caves"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Natural_landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Bale_Zone"/>
         <coordinates>6°54′22.7″N 40°50′41.6″E</coordinates>
         <description>Holqa Sof Omar: is one of the most spectacular and extensive underground caverns in the world: the Sof Omar cave system. Formed by the Weib River as it changed its course in the distant past and carved a new channel through limestone foothills, the Sof Omar cave system is an extraordinary natural phenomenon of breathtaking beauty.</description>
@@ -1462,15 +1638,20 @@
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Islamic_Saint -->
+    <!-- http://cultural.heritage/Ethiopia#Hot -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Islamic_Saint"/>
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Hot">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temperature_scale"/>
+        <rdfs:label>hot</rdfs:label>
+    </owl:NamedIndividual>
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Islamic_communities -->
+    <!-- http://cultural.heritage/Ethiopia#Intangible -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Islamic_communities"/>
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Intangible">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
     
 
 
@@ -1501,9 +1682,14 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Moderate_altitude"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Konso_Zone"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#South_Ethiopia_Regional_State"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Cultural_Landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Konso_Zone"/>
         <coordinates>5°20′N 37°20′E</coordinates>
         <description>Konso Cultural Landscape is an arid property of stone walled terraces and fortified settlements in the Konso highlands of Ethiopia. It constitutes a spectacular example of a living cultural tradition stretching back 21 generations (more than 400 years) adapted to its dry hostile environment. The landscape demonstrates the shared values, social cohesion and engineering knowledge of its communities. The site also features anthropomorphic wooden statues - grouped to represent respected members of their communities and particularly heroic events - which are an exceptional living testimony to funerary traditions that are on the verge of disappearing. Stone steles in the towns express a complex system of marking the passing of generations of leaders.</description>
@@ -1530,9 +1716,14 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
-        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Mixed"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Moderate_altitude"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Cultural_Landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <coordinates>N11 56 59.34 E37 15 41.31</coordinates>
         <description>The Blue Nile and the Lake Tana, located in the North West highlands of Ethiopia in the Amara Regional State, have been a passion that has driven many explorers since historic times. In ancient Greece, the source of the Nile was considered as one of the earth’s most compelling mysteries. A Greek historian, Herodotus, wrote about the Nile extensively in 460 BC. He believed the river sprang from between two massive mountains. Likewise, Emperor Nero ordered his explorers to follow the Nile in search of its source. References to the Blue Nile can be found in the Old Testament of the Bible as the River Gihon, which “flows around the whole land of Cush” (as Ethiopia was known to the Hebrews).</description>
         <official_name>Lake Tana Island Monasteries and its Adjacent Wetland Natural and Cultural Heritages</official_name>
@@ -1551,6 +1742,15 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Low -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Low">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Altitude"/>
+        <rdfs:label>low</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Lower_Valley_of_the_Awash -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Lower_Valley_of_the_Awash">
@@ -1558,9 +1758,14 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Low"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Archeological"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Hot"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Gabi_Rasu"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Afar_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Natural_landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Gabi_Rasu"/>
         <coordinates>11°6′0.216″N 40°34′45.804″E</coordinates>
         <description>The Awash valley contains one of the most important groupings of palaeontological sites on the African continent. The remains found at the site, the oldest of which date back at least 4 million years, provide evidence of human evolution which has modified our conception of the history of humankind. The most spectacular discovery came in 1974, when 52 fragments of a skeleton enabled the famous Lucy to be reconstructed.</description>
@@ -1577,9 +1782,14 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Low"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Natural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Hot"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#South_Ethiopia_Regional_State"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#South_Ethiopia_Regional_State"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Natural_landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <coordinates>4°48′N 35°58′E</coordinates>
         <description>A prehistoric site near Lake Turkana, the lower valley of the Omo is renowned the world over. The discovery of many fossils there, especially Homo gracilis, has been of fundamental importance in the study of human evolution.</description>
         <official_name>Lower Valley of the Omo</official_name>
@@ -1593,6 +1803,7 @@
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Maskel">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Commemoration_feast_of_the_finding_of_the_True_Holy_Cross_of_Christ"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#The_festival_of_Maskel"/>
         <rdfs:label>maskel</rdfs:label>
     </owl:NamedIndividual>
@@ -1630,6 +1841,9 @@
         <location rdf:resource="http://cultural.heritage/Ethiopia#Upper_Awash_Valley"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Oromia_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Melka_Kunture"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Natural_landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <coordinates>8.7051°N 38.5991°E</coordinates>
         <description>Melka Kunture, as it can be seen today, is part of a gently undulating landscape of the Upper Awash Valley, in the highlands of Ethiopia, at c. 2000m asl. All over the Upper Pliocene and the Pleistocene, tectonic activities led to the deepening of the demi-graben depression were the meandering paleo-Awash deposited alluvia. Through time, parts of the paleo-landscape were buried again and again, blanketed both by alluvial deposits, and by volcanic deposits produced by the nearby volcanoes. Accordingly, past surfaces, littered with archaeological implement and prehistoric animal remains, were covered by sediments and escaped destruction. They are now evidenced by natural erosion on the banks of the little gullies of the local tributaries of the Awash.</description>
         <official_name>Melka Kunture and Balchit</official_name>
@@ -1648,11 +1862,19 @@
     
 
 
-    <!-- http://cultural.heritage/Ethiopia#Mixed -->
+    <!-- http://cultural.heritage/Ethiopia#Moderate_altitude -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Mixed">
-        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Domain"/>
-        <rdfs:label>mixed</rdfs:label>
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Moderate_altitude">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Altitude"/>
+        <rdfs:label>moderate</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Monument -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Monument">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
     </owl:NamedIndividual>
     
 
@@ -1667,10 +1889,27 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#National_park -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#National_park">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Natural -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Natural">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Domain"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Natural_landscape -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Natural_landscape">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+        <rdfs:label>natural landscape</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1726,9 +1965,28 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Research_area -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Research_area">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Restoration_needed -->
 
-    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Restoration_needed"/>
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Restoration_needed">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Conservation_status"/>
+        <rdfs:label>restoration needed</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Ritual -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Ritual">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Domain"/>
+    </owl:NamedIndividual>
     
 
 
@@ -1739,11 +1997,16 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Restoration_needed"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#High"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_founder rdf:resource="http://cultural.heritage/Ethiopia#Gebre_Meskel_Lalibela"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#western_Ethiopian_Highlands"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
         <town rdf:resource="http://cultural.heritage/Ethiopia#Lalibela_town"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Temple"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#North_Wollo_Zone"/>
         <coordinates>12°01′57″N 39°02′36″E</coordinates>
         <description>The 11 medieval monolithic cave churches of this 13th-century &apos;New Jerusalem&apos; are situated in a mountainous region in the heart of Ethiopia near a traditional village with circular-shaped dwellings. Lalibela is a high place of Ethiopian Christianity, still today a place of pilmigrage and devotion.</description>
@@ -1763,6 +2026,9 @@
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Natural"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Natural_landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <built>5th to 14th centuries AD</built>
         <description>Tigray is home to 121 rock-hewn churches, believed to represent the single largest group of rock-hewn architecture in the world. Eighty of these churches, dating from the 5th to 14th centuries AD, as well as a small number of masonry-and-timber built churches, which include some of the oldest timber structures surviving worldwide (6th – 10th centuries AD), are located in the Sacred Landscapes of Tigray.</description>
         <official_name>Sacred Landscapes of Tigray</official_name>
@@ -1829,12 +2095,30 @@
         <city rdf:resource="http://cultural.heritage/Ethiopia#Harar"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Festival"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Harari_Region"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Shuwalid_festival"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Intangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Social_practice"/>
         <description>Shuwalid is an annual three-day festival celebrated by the Harari people of Ethiopia. It marks the end of six days of fasting to compensate omissions during Ramadan. The Harari people celebrate Shuwalid at the shrines of Aw Shulum Ahmed and Aw Akebara, found at the main entrance gates of the walled city of Harar. The festival starts with supplications and spiritual songs, followed by the reading of scriptures, music and dance. The celebration is concluded with words of blessing.</description>
         <frequency>Once in a year</frequency>
         <observedby>Harari people of Ethiopia.</observedby>
         <official_name>Shuwalid festival</official_name>
         <rdfs:label>shuwalid</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Shuwalid_festival -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Shuwalid_festival">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Shuwalid"/>
+        <rdfs:label>shuwalid festival</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1876,18 +2160,31 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#High"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Natural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Cold"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#North_Gonder_Zone"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Debark"/>
         <nearest_city rdf:resource="http://cultural.heritage/Ethiopia#Mekane_Berhan"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Amhara_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Simien_Mountains_National_Park"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#National_park"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <area>220km^2 (85 sq mi)</area>
         <coordinates>13°11′N 38°4′E</coordinates>
         <description>Massive erosion over the years on the Ethiopian plateau has created one of the most spectacular landscapes in the world, with jagged mountain peaks, deep valleys and sharp precipices dropping some 1,500 m. The park is home to some extremely rare animals such as the Gelada baboon, the Simien fox and the Walia ibex, a goat found nowhere else in the world.</description>
         <established rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1969</established>
         <official_name>Simien Mountains National Park</official_name>
         <rdfs:label>simien national park</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Social_practice -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Social_practice">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
     </owl:NamedIndividual>
     
 
@@ -1932,16 +2229,63 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Statue -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Statue">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#System_of_governance -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#System_of_governance">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+        <rdfs:label>system of governance</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Tangible -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Tangible">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Temperate -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Temperate">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Temperature_scale"/>
+        <rdfs:label>temperate</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Temple -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Temple">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Type"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#The_Cultural_Heritage_of_Yeha -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#The_Cultural_Heritage_of_Yeha">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Monument"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#High"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Architectural"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Tigray_Region"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Yeha"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Monument"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Tangible"/>
         <zone rdf:resource="http://cultural.heritage/Ethiopia#Central_Zone"/>
         <coordinates>14°17′8.36″N 39°1′8.61″E</coordinates>
         <description>The site of Yeha is located in a modern town hidden by the Adwa chains of mountains about 53 km to the west of the World Heritage Site of Aksum in Central Administrative zone of Tigray National Regional State in northern Ethiopia. It is located in a fertile basin with an altitude of 2150 m surrounded by spectacular volcanic mountain chains. It is a sacred place for the Ethiopian Orthodox Christians, a living memory and religious practices of the same believers since the foundation of the Monastery of Abune Aftsie in the six century AD by one of the Nine Saints who came to the Northern Horn from the Europe and the Middle East in the same century for evangelization.</description>
@@ -1959,8 +2303,15 @@
         <city rdf:resource="http://cultural.heritage/Ethiopia#Addis_Ababa"/>
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Festival"/>
+        <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Ritual"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Addis_Ababa"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Commemoration_feast_of_the_finding_of_the_True_Holy_Cross_of_Christ"/>
         <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Maskel"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Heritage"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Intangible"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Social_practice"/>
         <description>The festival of Maskel is celebrated across Ethiopia on 26 September to commemorate the unearthing of the True Holy Cross of Christ. Celebrations begin with the building of the Damera bonfire in Maskel Square in Addis Ababa – a conical pyre of poles surrounded by bundles of branches and torches, decorated with green grass and Abyssinian daisies symbolizing the New Year. Hundreds of thousands of people from diverse communities flock to the square as colourfully dressed priests chant hymns and prayers and perform their unique rhythmic dance in front of the pyre. At the climax, the patriarch of the Ethiopian Orthodox Tewahedo Church lights the bonfire. Maskel is celebrated nationwide regardless of age, gender, language or ethnicity.</description>
         <frequency>Once in a year</frequency>
         <observedby>Ethiopian Orthodox Tewahedo Church</observedby>
@@ -1998,7 +2349,9 @@
         <continent rdf:resource="http://cultural.heritage/Ethiopia#Africa"/>
         <country rdf:resource="http://cultural.heritage/Ethiopia#Ethiopia"/>
         <current_status rdf:resource="http://cultural.heritage/Ethiopia#Well_preserved"/>
+        <has_altitude rdf:resource="http://cultural.heritage/Ethiopia#Moderate_altitude"/>
         <has_domain rdf:resource="http://cultural.heritage/Ethiopia#Archeological"/>
+        <has_temperature rdf:resource="http://cultural.heritage/Ethiopia#Temperate"/>
         <location rdf:resource="http://cultural.heritage/Ethiopia#Soddo"/>
         <region rdf:resource="http://cultural.heritage/Ethiopia#Central_Ethiopia_Regional_State"/>
         <woreda rdf:resource="http://cultural.heritage/Ethiopia#Soddo"/>
@@ -2027,6 +2380,7 @@
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Waga_sculpture">
         <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Statue"/>
         <is_part_of rdf:resource="http://cultural.heritage/Ethiopia#Konso_Cultural_Landscape"/>
+        <type_of rdf:resource="http://cultural.heritage/Ethiopia#Statue"/>
         <rdfs:label>waga</rdfs:label>
     </owl:NamedIndividual>
     
@@ -2131,6 +2485,26 @@
     
 
 
+    <!-- http://cultural.heritage/Ethiopia#Fichee-Chambalaalla,_New_Year_festival_of_the_Sidama_people -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Fichee-Chambalaalla,_New_Year_festival_of_the_Sidama_people">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#Ceremony"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Fichee-Chambalaalla"/>
+        <rdfs:label>fichee-chambalaalla, new year festival of the sidama people</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://cultural.heritage/Ethiopia#Gada_system,_an_indigenous_democratic_socio-political_system_of_the_Oromo -->
+
+    <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Gada_system,_an_indigenous_democratic_socio-political_system_of_the_Oromo">
+        <rdf:type rdf:resource="http://cultural.heritage/Ethiopia#System_of_Governance"/>
+        <similar_to rdf:resource="http://cultural.heritage/Ethiopia#Gada_system"/>
+        <rdfs:label>gada system, an indigenous democratic socio-political system of the oromo</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://cultural.heritage/Ethiopia#Lai&apos;ilay_Maychew -->
 
     <owl:NamedIndividual rdf:about="http://cultural.heritage/Ethiopia#Lai&apos;ilay_Maychew">
@@ -2179,8 +2553,53 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Castle">
+        <rdfs:label>castle</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Ceremony">
+        <rdfs:label>ceremony</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Cultural">
+        <rdfs:label>cultural</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Cultural_Landscape">
+        <rdfs:label>cultural landscape</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Cultural_town">
+        <rdfs:label>cultural town</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Heritage">
+        <rdfs:label>heritage</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Intangible">
+        <rdfs:label>intangible</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Monument">
+        <rdfs:label>monument</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#National_park">
+        <rdfs:label>national park</rdfs:label>
+    </rdf:Description>
     <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Natural">
         <rdfs:label>natural</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Research_area">
+        <rdfs:label>research area</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Ritual">
+        <rdfs:label>ritual</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Social_practice">
+        <rdfs:label>social practice</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Statue">
+        <rdfs:label>statue</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Tangible">
+        <rdfs:label>tangible</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://cultural.heritage/Ethiopia#Temple">
+        <rdfs:label>temple</rdfs:label>
     </rdf:Description>
 </rdf:RDF>
 
