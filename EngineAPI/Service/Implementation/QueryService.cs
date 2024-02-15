@@ -10,6 +10,8 @@ using VDS.RDF.Query;
 using EngineAPI.Domain.DataModels;
 using Newtonsoft.Json.Linq;
 using Microsoft.Data.SqlClient.DataClassification;
+using Microsoft.AspNetCore.Http;
+using VDS.RDF.Parsing.Tokens;
 
 namespace EngineAPI.Service.Implementation;
 
@@ -29,7 +31,7 @@ public class QueryService : IQueryService
                 return new ResponseModel<dynamic> { Success = false, Message = "The 'query' key is missing in the queryParams." };
 
 
-            if (textValue is not null && textValue.Length > 3)
+            if (textValue is not null && textValue.Length > 2)
             {
                 var context = new MLContext();
                 var emptyData = new List<TextData>();
@@ -171,7 +173,8 @@ public class QueryService : IQueryService
           			    }}}}
         			
       			     }}}}
-  
+                      
+                      FILTER(!BOUND(?mainPartConcept) || ?mainPartConcept != owl:NamedIndividual)
                       FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
                       FILTER(?concept != owl:NamedIndividual)
     			      FILTER(!BOUND(?csconcept) || ?csconcept != owl:NamedIndividual)
@@ -183,17 +186,14 @@ public class QueryService : IQueryService
     			      FILTER(!BOUND(?regionConcept) || ?regionConcept != owl:NamedIndividual)
     			      FILTER(!BOUND(?founderConcept) || ?founderConcept != owl:NamedIndividual)
                       FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
+
                     }}}}
                     GROUP BY ?concept ?instanceLabel ?similarInstanceLabel ?subPartInstanceLabel ?mainPartInstanceLabel ?csinstanceLabel ?domainInstanceLabel ?tempInstanceLabel ?altInstanceLabel
 						     ?typeInstanceLabel ?regionInstaceLabel ?founderInstanceLabel ?csconcept ?mainPartConcept ?domainConcept ?tempConcept ?altConcept ?typeConcept ?regionConcept
 						     ?founderConcept ?founderInstaSimLabel ?regionInstaSimLabel ?typeInstaSimLabel ?altInstaSimLabel ?tempInstaSimLabel ?domainInstaSimLabel ?csinstasimlabel
                 ";
 
-                SparqlQueryParser sparqlParser = new();
-                SparqlQuery query = sparqlParser.ParseFromString(sparqlQuery);
-
-                LeviathanQueryProcessor queryProcessor = new(dataset);
-                SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
+                SparqlResultSet results = Functions.ExecuteSparqlQuery(dataset, sparqlQuery);
 
                 if (results is not null)
                 {
@@ -239,18 +239,60 @@ public class QueryService : IQueryService
                                })
                                 .Where(label => label != null));
 
-                    var responses = await _repository.FindDocuments(concepts, instances, filterParam);
+                    var relevantInstances = GetRelevantInstances(dataset, instances);
+                    var responses = await _repository.FindDocuments(concepts, relevantInstances, filterParam);
+
+                    var calulatedSimilarities = CalculateAndRankSimilarities(dataset, concepts);
+
 
                     foreach (var response in responses)
                     {
                         var splitedTitle = response.Title.Split(",")[0];
 
-                        if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower()) || splitedTitle.ToLower().Contains(instance.Split(",")[0].ToLower())))
-                            response.Tf += 10;
+                        foreach (var response2 in responses)
+                        {
+                            var splitedTitle2 = response.Title.Split(",")[0];
 
-                        else if(response.Title.Contains(Constants.RootDocument))
-                            response.Tf += 5;
+                            if (response != response2)
+                            {
+                                var similarityDTO = calulatedSimilarities.FirstOrDefault(similarity =>
+                                        (similarity.ConceptOne == response.ConceptDesc && similarity.ConceptTwo == response2.ConceptDesc) ||
+                                        (similarity.ConceptOne == response2.ConceptDesc && similarity.ConceptTwo == response.ConceptDesc));
+                                if(similarityDTO != null)
+                                {
+                                    double similarityValue = similarityDTO.Similarity;
+
+                                    response.Tf += similarityValue * Constants.SimilarityFactor;
+                                    response2.Tf += similarityValue * Constants.SimilarityFactor;
+
+                                }
+                            }
+
+                            if (relevantInstances.Any(instance => response2.Title.ToLower().Contains(instance.ToLower()) || splitedTitle2.ToLower().Contains(instance.Split(",")[0].ToLower())))
+                                response.Tf += Constants.SimilarityFactor;
+
+                            else if (response2.Title.Contains(Constants.RootDocument))
+                                response2.Tf += Constants.RootDocFactor;
+
+                        }
+
+                        if (relevantInstances.Any(instance => response.Title.ToLower().Contains(instance.ToLower()) || splitedTitle.ToLower().Contains(instance.Split(",")[0].ToLower())))
+                            response.Tf += Constants.SimilarityFactor;
+
+                        else if (response.Title.Contains(Constants.RootDocument))
+                            response.Tf += Constants.RootDocFactor;
                     }
+
+                    //foreach (var response in responses)
+                    //{
+                    //    var splitedTitle = response.Title.Split(",")[0];
+
+                    //    if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower()) || splitedTitle.ToLower().Contains(instance.Split(",")[0].ToLower())))
+                    //        response.Tf += 10;
+
+                    //    else if(response.Title.Contains(Constants.RootDocument))
+                    //        response.Tf += 5;
+                    //}
 
                     return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
                 }
@@ -264,4 +306,138 @@ public class QueryService : IQueryService
             return new ResponseModel<dynamic> { Success = false, Message = x.Message };
         }
     }
+
+
+
+    private HashSet<SimilarityDTO> CalculateAndRankSimilarities(ISparqlDataset dataSet, HashSet<string> concepts)
+    {
+        var conceptsSimilarities = new HashSet<SimilarityDTO>();
+        foreach (string concept1Uri in concepts)
+        {
+            foreach (string concept2Uri in concepts)
+            {
+                if (concept1Uri != concept2Uri)
+                {
+                    double similarity = WuPalmerSimilarity(dataSet, concept1Uri, concept2Uri);
+
+                    if(similarity > 0)
+                    {
+                        var conceptsSimilarity = new SimilarityDTO
+                        {
+                            ConceptOne = concept1Uri,
+                            ConceptTwo = concept2Uri,
+                            Similarity = similarity
+                        };
+
+                        conceptsSimilarities.Add(conceptsSimilarity);
+                    }
+                
+                }
+            }
+        }
+
+        return conceptsSimilarities;
+    }
+    private double WuPalmerSimilarity(ISparqlDataset dataSet, string concept1Uri, string concept2Uri)
+    {
+        int depthLCS = GetDepth(dataSet, concept1Uri, concept2Uri);
+        int depthConcept1 = GetDepth(dataSet, concept1Uri);
+        int depthConcept2 = GetDepth(dataSet, concept2Uri);
+
+        return (2.0 * depthLCS) / (depthConcept1 + depthConcept2);
+    }
+
+    private int GetDepth(ISparqlDataset dataSet, string conceptUri)
+    {
+        string sparqlQuery = $@"
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT (COUNT(?superClass) AS ?depth)
+        WHERE {{
+            <{conceptUri}> rdfs:subClassOf* ?superClass.
+        }}";
+
+        SparqlResultSet resultSet = Functions.ExecuteSparqlQuery(dataSet, sparqlQuery);
+
+        if (resultSet.Results.Count > 0)
+        {
+            INode depthNode = resultSet.Results[0]["depth"];
+            if (depthNode.NodeType == NodeType.Literal && depthNode is ILiteralNode literalNode)
+            {
+                int depth = int.Parse(literalNode.Value);
+                return depth;
+            }
+        }
+
+        return 0;
+    }
+
+    private int GetDepth(ISparqlDataset dataSet, string concept1Uri, string concept2Uri)
+    {
+        string sparqlQuery = $@"
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT (COUNT(?superClass) AS ?depth)
+        WHERE {{
+            <{concept1Uri}> rdfs:subClassOf* ?superClass.
+            <{concept2Uri}> rdfs:subClassOf* ?superClass.
+        }}";
+
+        SparqlResultSet resultSet = Functions.ExecuteSparqlQuery(dataSet, sparqlQuery);
+
+        if (resultSet.Results.Count > 0)
+        {
+            INode depthNode = resultSet.Results[0]["depth"];
+            if (depthNode.NodeType == NodeType.Literal && depthNode is ILiteralNode literalNode)
+            {
+                int depth = int.Parse(literalNode.Value);
+                return depth;
+            }
+        }
+
+        return 0;
+    }
+
+    private HashSet<string?> GetRelevantInstances(ISparqlDataset dataSet, HashSet<string> instances)
+    {
+        if (!instances.Any()) return new HashSet<string>();
+
+        var contentValues = instances.Select(i => $"\"{Functions.EscapeString(i)}\"").ToList();
+        string contentValuesString = string.Join(" ", contentValues);
+
+        var sparqlQuery = $@"
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                PREFIX table: <http://cultural.heritage/Ethiopia#>
+
+                SELECT ?content ?instanceLabel ?instanceType
+                WHERE {{
+                    VALUES ?content {{ {contentValuesString} }}
+                    ?instance rdf:type ?instanceType .
+            
+                    ?instance rdfs:label ?instanceLabel .
+
+                    # Exclude concepts that are subclasses of table:Geographical_area
+                    FILTER NOT EXISTS {{
+                    ?instanceType rdfs:subClassOf* table:Geographical_area.
+                    }}
+                    FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
+                    FILTER(?instanceType != owl:NamedIndividual)
+                    FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
+                }}
+                GROUP BY ?content ?instanceLabel ?instanceType
+            ";
+
+        SparqlResultSet resultSet = Functions.ExecuteSparqlQuery(dataSet, sparqlQuery);
+
+        if(resultSet is not null)
+        {
+            HashSet<string?> relevantInstances = new(resultSet.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
+
+            return relevantInstances;
+        }
+
+        return new HashSet<string>();
+    }
+
 }

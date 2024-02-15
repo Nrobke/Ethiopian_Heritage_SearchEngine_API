@@ -46,11 +46,7 @@ public class ConceptService : IConceptService
                 }
             }";
 
-            SparqlQueryParser sparqlParser = new SparqlQueryParser();
-            SparqlQuery query = sparqlParser.ParseFromString(sparqlQuery);
-
-            LeviathanQueryProcessor queryProcessor = new LeviathanQueryProcessor(dataset);
-            SparqlResultSet results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
+            SparqlResultSet results = Functions.ExecuteSparqlQuery(dataset, sparqlQuery);
 
             if(results != null)
             {

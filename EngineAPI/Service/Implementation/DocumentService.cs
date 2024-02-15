@@ -71,9 +71,7 @@ public class DocumentService : IDocumentService
                 GROUP BY ?content ?instanceLabel ?instanceType
             ";
 
-                var query = new SparqlQueryParser().ParseFromString(sparqlQuery);
-                var queryProcessor = new LeviathanQueryProcessor(dataset);
-                var results = (SparqlResultSet)queryProcessor.ProcessQuery(query);
+                var results = Functions.ExecuteSparqlQuery(dataset, sparqlQuery);
 
                 if (results != null)
                 {
