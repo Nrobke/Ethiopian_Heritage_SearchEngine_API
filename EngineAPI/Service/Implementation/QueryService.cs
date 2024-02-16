@@ -240,59 +240,18 @@ public class QueryService : IQueryService
                                 .Where(label => label != null));
 
                     var relevantInstances = GetRelevantInstances(dataset, instances);
-                    var responses = await _repository.FindDocuments(concepts, relevantInstances, filterParam);
-
-                    var calulatedSimilarities = CalculateAndRankSimilarities(dataset, concepts);
-
+                    var responses = await _repository.FindDocuments(concepts, instances, filterParam);
 
                     foreach (var response in responses)
                     {
                         var splitedTitle = response.Title.Split(",")[0];
 
-                        foreach (var response2 in responses)
-                        {
-                            var splitedTitle2 = response.Title.Split(",")[0];
-
-                            if (response != response2)
-                            {
-                                var similarityDTO = calulatedSimilarities.FirstOrDefault(similarity =>
-                                        (similarity.ConceptOne == response.ConceptDesc && similarity.ConceptTwo == response2.ConceptDesc) ||
-                                        (similarity.ConceptOne == response2.ConceptDesc && similarity.ConceptTwo == response.ConceptDesc));
-                                if(similarityDTO != null)
-                                {
-                                    double similarityValue = similarityDTO.Similarity;
-
-                                    response.Tf += similarityValue * Constants.SimilarityFactor;
-                                    response2.Tf += similarityValue * Constants.SimilarityFactor;
-
-                                }
-                            }
-
-                            if (relevantInstances.Any(instance => response2.Title.ToLower().Contains(instance.ToLower()) || splitedTitle2.ToLower().Contains(instance.Split(",")[0].ToLower())))
-                                response.Tf += Constants.SimilarityFactor;
-
-                            else if (response2.Title.Contains(Constants.RootDocument))
-                                response2.Tf += Constants.RootDocFactor;
-
-                        }
-
                         if (relevantInstances.Any(instance => response.Title.ToLower().Contains(instance.ToLower()) || splitedTitle.ToLower().Contains(instance.Split(",")[0].ToLower())))
-                            response.Tf += Constants.SimilarityFactor;
+                            response.Tf += Constants.TitleFactor;
 
                         else if (response.Title.Contains(Constants.RootDocument))
                             response.Tf += Constants.RootDocFactor;
                     }
-
-                    //foreach (var response in responses)
-                    //{
-                    //    var splitedTitle = response.Title.Split(",")[0];
-
-                    //    if (instances.Any(instance => response.Title.ToLower().Contains(instance.ToLower()) || splitedTitle.ToLower().Contains(instance.Split(",")[0].ToLower())))
-                    //        response.Tf += 10;
-
-                    //    else if(response.Title.Contains(Constants.RootDocument))
-                    //        response.Tf += 5;
-                    //}
 
                     return new ResponseModel<dynamic> { Success = true, Data = responses.OrderByDescending(r => r.Tf) };
                 }
@@ -305,95 +264,6 @@ public class QueryService : IQueryService
         {
             return new ResponseModel<dynamic> { Success = false, Message = x.Message };
         }
-    }
-
-
-
-    private HashSet<SimilarityDTO> CalculateAndRankSimilarities(ISparqlDataset dataSet, HashSet<string> concepts)
-    {
-        var conceptsSimilarities = new HashSet<SimilarityDTO>();
-        foreach (string concept1Uri in concepts)
-        {
-            foreach (string concept2Uri in concepts)
-            {
-                if (concept1Uri != concept2Uri)
-                {
-                    double similarity = WuPalmerSimilarity(dataSet, concept1Uri, concept2Uri);
-
-                    if(similarity > 0)
-                    {
-                        var conceptsSimilarity = new SimilarityDTO
-                        {
-                            ConceptOne = concept1Uri,
-                            ConceptTwo = concept2Uri,
-                            Similarity = similarity
-                        };
-
-                        conceptsSimilarities.Add(conceptsSimilarity);
-                    }
-                
-                }
-            }
-        }
-
-        return conceptsSimilarities;
-    }
-    private double WuPalmerSimilarity(ISparqlDataset dataSet, string concept1Uri, string concept2Uri)
-    {
-        int depthLCS = GetDepth(dataSet, concept1Uri, concept2Uri);
-        int depthConcept1 = GetDepth(dataSet, concept1Uri);
-        int depthConcept2 = GetDepth(dataSet, concept2Uri);
-
-        return (2.0 * depthLCS) / (depthConcept1 + depthConcept2);
-    }
-
-    private int GetDepth(ISparqlDataset dataSet, string conceptUri)
-    {
-        string sparqlQuery = $@"
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT (COUNT(?superClass) AS ?depth)
-        WHERE {{
-            <{conceptUri}> rdfs:subClassOf* ?superClass.
-        }}";
-
-        SparqlResultSet resultSet = Functions.ExecuteSparqlQuery(dataSet, sparqlQuery);
-
-        if (resultSet.Results.Count > 0)
-        {
-            INode depthNode = resultSet.Results[0]["depth"];
-            if (depthNode.NodeType == NodeType.Literal && depthNode is ILiteralNode literalNode)
-            {
-                int depth = int.Parse(literalNode.Value);
-                return depth;
-            }
-        }
-
-        return 0;
-    }
-
-    private int GetDepth(ISparqlDataset dataSet, string concept1Uri, string concept2Uri)
-    {
-        string sparqlQuery = $@"
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT (COUNT(?superClass) AS ?depth)
-        WHERE {{
-            <{concept1Uri}> rdfs:subClassOf* ?superClass.
-            <{concept2Uri}> rdfs:subClassOf* ?superClass.
-        }}";
-
-        SparqlResultSet resultSet = Functions.ExecuteSparqlQuery(dataSet, sparqlQuery);
-
-        if (resultSet.Results.Count > 0)
-        {
-            INode depthNode = resultSet.Results[0]["depth"];
-            if (depthNode.NodeType == NodeType.Literal && depthNode is ILiteralNode literalNode)
-            {
-                int depth = int.Parse(literalNode.Value);
-                return depth;
-            }
-        }
-
-        return 0;
     }
 
     private HashSet<string?> GetRelevantInstances(ISparqlDataset dataSet, HashSet<string> instances)
@@ -414,13 +284,11 @@ public class QueryService : IQueryService
                 WHERE {{
                     VALUES ?content {{ {contentValuesString} }}
                     ?instance rdf:type ?instanceType .
+                    ?instanceType rdfs:subClassOf ?parentClass.
             
                     ?instance rdfs:label ?instanceLabel .
 
-                    # Exclude concepts that are subclasses of table:Geographical_area
-                    FILTER NOT EXISTS {{
-                    ?instanceType rdfs:subClassOf* table:Geographical_area.
-                    }}
+                    FILTER(?parentClass != table:Geographical_area)
                     FILTER(REGEX(LCASE(?instanceLabel), LCASE(?content), ""i""))
                     FILTER(?instanceType != owl:NamedIndividual)
                     FILTER(LCASE(?instanceLabel) = ?instanceLabel)  # Exclude uppercase labels
@@ -430,7 +298,7 @@ public class QueryService : IQueryService
 
         SparqlResultSet resultSet = Functions.ExecuteSparqlQuery(dataSet, sparqlQuery);
 
-        if(resultSet is not null)
+        if (resultSet is not null)
         {
             HashSet<string?> relevantInstances = new(resultSet.Select(result => Functions.CleanUpString(result["instanceLabel"].ToString())));
 
